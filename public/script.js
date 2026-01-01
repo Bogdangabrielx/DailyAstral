@@ -38,13 +38,9 @@ const zodiacErrorOverlay = document.getElementById('zodiacErrorOverlay');
 const zodiacErrorMessage = document.getElementById('zodiacErrorMessage');
 const zodiacErrorClose = document.getElementById('zodiacErrorClose');
 
-const supabaseConfig = window.__SUPABASE__ || {};
-const SUPABASE_URL = supabaseConfig.url || '';
-const SUPABASE_ANON_KEY = supabaseConfig.anonKey || '';
-const SUPABASE_MAX_IDX = Number.isFinite(Number(supabaseConfig.maxIdx))
-  ? Number(supabaseConfig.maxIdx)
-  : 10000;
-const DAILY_STEP = Number.isFinite(Number(supabaseConfig.dailyStep)) ? Number(supabaseConfig.dailyStep) : 36;
+const runtimeConfig = window.__APP_CONFIG__ || window.__SUPABASE__ || {};
+const SUPABASE_MAX_IDX = Number.isFinite(Number(runtimeConfig.maxIdx)) ? Number(runtimeConfig.maxIdx) : 10000;
+const DAILY_STEP = Number.isFinite(Number(runtimeConfig.dailyStep)) ? Number(runtimeConfig.dailyStep) : 36;
 
 const I18N = {
   ro: {
@@ -349,8 +345,30 @@ function updatePillAvailability() {
 }
 
 async function fetchAnswerByIdxAndTopic(idx, topic, lang = currentLang) {
+  const apiUrl = `/api/answer?idx=${encodeURIComponent(String(idx))}&topic=${encodeURIComponent(
+    String(topic),
+  )}&lang=${encodeURIComponent(lang === 'en' ? 'en' : 'ro')}`;
+
+  try {
+    const res = await fetch(apiUrl, { headers: { Accept: 'application/json' } });
+    if (res.ok) {
+      const data = await res.json();
+      const message = data && typeof data.message === 'string' ? data.message : '';
+      return message;
+    }
+    // If we can't reach the API (ex: on a purely static host), fall back below.
+    if (res.status !== 404) {
+      throw new Error(`API error ${res.status}`);
+    }
+  } catch {
+    // fall back below
+  }
+
+  const supabaseConfig = window.__SUPABASE__ || {};
+  const SUPABASE_URL = supabaseConfig.url || '';
+  const SUPABASE_ANON_KEY = supabaseConfig.anonKey || '';
   if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
-    throw new Error('Supabase config missing');
+    throw new Error('Answer API unavailable and Supabase config missing');
   }
 
   const suffix = lang === 'en' ? '_en' : '_ro';

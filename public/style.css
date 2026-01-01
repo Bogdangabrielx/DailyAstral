@@ -107,7 +107,16 @@ p {
   justify-content: center;
   gap: 8px;
   margin-top: 10px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.tag-row::-webkit-scrollbar {
+  display: none;
 }
 
 .lang-toggle {
@@ -142,8 +151,8 @@ p {
 .tag {
   padding: 4px 10px;
   border-radius: 999px;
-  font-size: 0.7rem;
-  letter-spacing: 0.12em;
+  font-size: clamp(0.62rem, 2.6vw, 0.7rem);
+  letter-spacing: clamp(0.08em, 0.9vw, 0.12em);
   text-transform: uppercase;
   border: 1px solid rgba(255, 255, 255, 0.18);
   background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.19), transparent 60%);
@@ -151,6 +160,9 @@ p {
     0 0 10px rgba(255, 255, 255, 0.18),
     0 0 22px rgba(123, 31, 162, 0.68);
   backdrop-filter: blur(6px);
+  white-space: nowrap;
+  flex: 0 1 auto;
+  min-width: 0;
 }
 
 .tag--lucky {
@@ -166,6 +178,16 @@ p {
 .tag--fortune {
   border-color: rgba(3, 169, 244, 0.9);
   color: #b3e5fc;
+}
+
+@media (max-width: 420px) {
+  .tag-row {
+    gap: 6px;
+  }
+
+  .tag {
+    padding: 4px 8px;
+  }
 }
 
 .wheel-container {

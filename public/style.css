@@ -170,23 +170,22 @@ p {
   color: #b3e5fc;
 }
 
-@media (max-width: 420px) {
+@media (max-width: 520px) {
   .tag-row {
-    gap: 6px;
+    gap: clamp(4px, 1.6vw, 6px);
     flex-wrap: nowrap;
+    width: 100%;
   }
 
   .tag {
-    padding: 4px 8px;
+    padding: 4px clamp(6px, 1.8vw, 8px);
     display: inline-flex;
     align-items: center;
     flex: 1 1 0;
     justify-content: center;
     text-align: center;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-size: 0.62rem;
-    letter-spacing: 0.08em;
+    font-size: clamp(0.5rem, 2.3vw, 0.66rem);
+    letter-spacing: clamp(0.03em, 0.6vw, 0.09em);
   }
 }
 

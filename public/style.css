@@ -108,8 +108,6 @@ p {
   gap: 8px;
   margin-top: 10px;
   width: 100%;
-  max-width: 420px;
-  margin-inline: auto;
   flex-wrap: nowrap;
 }
 
@@ -190,13 +188,14 @@ p {
     padding: 4px 8px;
     font-size: 0.62rem;
     letter-spacing: 0.09em;
+    line-height: 1.05;
+    min-height: 28px;
   }
 
   .tag--lucky {
     font-size: 0.56rem;
     letter-spacing: 0.05em;
-    white-space: normal;
-    line-height: 1.05;
+    white-space: nowrap;
   }
 }
 

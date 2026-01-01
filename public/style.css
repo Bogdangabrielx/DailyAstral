@@ -103,11 +103,14 @@ p {
 
 .tag-row {
   display: flex;
+  align-items: stretch;
   justify-content: center;
   gap: 8px;
   margin-top: 10px;
-  flex-wrap: wrap;
   width: 100%;
+  max-width: 420px;
+  margin-inline: auto;
+  flex-wrap: nowrap;
 }
 
 .lang-toggle {
@@ -153,11 +156,19 @@ p {
   backdrop-filter: blur(6px);
   white-space: nowrap;
   min-width: 0;
+  width: 100%;
+  height: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 0;
+  text-align: center;
 }
 
 .tag--lucky {
   border-color: rgba(255, 193, 7, 0.8);
   color: #ffe9a0;
+  letter-spacing: 0.08em;
 }
 
 .tag--horoscope {
@@ -172,37 +183,20 @@ p {
 
 @media (max-width: 520px) {
   .tag-row {
-    display: flex;
-    justify-content: center;
-    align-items: stretch;
-    flex-wrap: nowrap;
-    gap: clamp(4px, 1.6vw, 6px);
-    width: 100%;
-    padding-inline: 6px;
+    gap: 6px;
   }
 
   .tag {
-    width: auto;
-    max-width: 33.33%;
-    flex: 0 1 auto;
-    min-width: 0;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 4px clamp(6px, 1.8vw, 10px);
-    text-align: center;
-    font-size: clamp(0.5rem, 2.2vw, 0.66rem);
-    letter-spacing: clamp(0.03em, 0.6vw, 0.09em);
-    line-height: 1.05;
+    padding: 4px 8px;
+    font-size: 0.62rem;
+    letter-spacing: 0.09em;
   }
 
-  /* Longer label: keep it tidy on phones */
   .tag--lucky {
-    font-size: clamp(0.46rem, 2.0vw, 0.6rem);
-    letter-spacing: clamp(0.01em, 0.35vw, 0.05em);
-    padding-top: 3px;
-    padding-bottom: 3px;
-    text-transform: none;
+    font-size: 0.56rem;
+    letter-spacing: 0.05em;
+    white-space: normal;
+    line-height: 1.05;
   }
 }
 

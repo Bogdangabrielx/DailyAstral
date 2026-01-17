@@ -2,7 +2,7 @@
 <html lang="ro-RO">
   <head>
     <meta charset="utf-8" />
-    <title>Horoscop Interactiv Zilnic – Bani, Dragoste &amp; Vibrație | DailyAstral</title>
+    <title>The Daily Astral – Bani, Dragoste &amp; Vibrație | DailyAstral</title>
     <meta
       name="description"
       content="Horoscop interactiv zilnic personalizat. Alege zodia și categoria dorită: bani, dragoste sau vibrație zilnică."
@@ -43,15 +43,19 @@
           <img id="langIcon" class="lang-icon" src="/ro.png" alt="RO" />
         </button>
 
-        <h1 id="appTitle" class="neon-title">Daily Astral</h1>
+        <h1 id="appTitle" class="neon-title">Horoscop</h1>
         <p id="appSubtitle" class="subtitle">
           Lasă stelele să aleagă pentru tine. Apasă pe buton și vezi ce mesaj are astăzi Universul pentru tine.
         </p>
 
         <div class="tag-row">
-          <span class="tag tag--horoscope" data-topic="bani">$ Bani</span>
-          <span class="tag tag--lucky" data-topic="ghidare">☀︎ Vibrație zilnică</span>
-          <span class="tag tag--horoscope" data-topic="dragoste">♡ Dragoste</span>
+          <button class="tag tag--horoscope" type="button" data-topic="bani" aria-pressed="false">$ Bani</button>
+          <button class="tag tag--lucky" type="button" data-topic="ghidare" aria-pressed="false">
+            ☀︎ Vibrație zilnică
+          </button>
+          <button class="tag tag--horoscope" type="button" data-topic="dragoste" aria-pressed="false">
+            ♡ Dragoste
+          </button>
         </div>
       </header>
 
@@ -67,19 +71,24 @@
       <div id="result" class="result"></div>
     </div>
 
-    <div id="zodiacOverlay" class="zodiac-overlay">
-      <div class="scroll-backdrop"></div>
-      <div class="zodiac-modal">
-        <div class="scroll scroll--paper">
-          <div class="scroll-inner">
-            <h2 class="zodiac-title">Alege-ți zodia</h2>
-            <label class="zodiac-label" for="zodiacSelect">Zodia ta</label>
+	    <div id="zodiacOverlay" class="zodiac-overlay">
+	      <div class="scroll-backdrop"></div>
+	      <div class="zodiac-modal">
+	        <button
+	          id="zodiacClose"
+	          class="scroll-close"
+	          type="button"
+	          aria-label="Închide selectorul de zodie"
+	        >
+	          ✕
+	        </button>
+	        <div class="scroll scroll--paper">
+	          <div class="scroll-inner">
+	            <h2 class="zodiac-title">Alege-ți zodia</h2>
+	            <label class="zodiac-label" for="zodiacSelect">Zodia ta</label>
             <select id="zodiacSelect" class="zodiac-select"></select>
             <div class="zodiac-pill-row">
-              <button class="zodiac-pill" data-topic="bani">$ Bani</button>
-              <button class="zodiac-pill" data-topic="dragoste">♡ Dragoste</button>
-              <button class="zodiac-pill" data-topic="ghidare">☀︎ Vibrație zilnică</button>
-              <button id="zodiacConfirm" class="zodiac-confirm">Învârte</button>
+              <button id="zodiacConfirm" class="zodiac-confirm" type="button">Învârte</button>
             </div>
           </div>
         </div>

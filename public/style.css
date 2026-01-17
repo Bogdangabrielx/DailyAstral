@@ -141,6 +141,9 @@ p {
 }
 
 .tag {
+  appearance: none;
+  cursor: pointer;
+  font: inherit;
   padding: 4px 10px;
   border-radius: 999px;
   font-size: 0.7rem;
@@ -161,6 +164,25 @@ p {
   justify-content: center;
   flex: 1 1 0;
   text-align: center;
+}
+
+.tag--selected {
+  border-color: rgba(255, 255, 255, 0.65);
+  box-shadow:
+    0 0 10px rgba(255, 255, 255, 0.22),
+    0 0 26px rgba(0, 229, 255, 0.55),
+    0 0 34px rgba(123, 31, 162, 0.72);
+}
+
+.tag:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+  box-shadow: none;
+}
+
+.tag:focus-visible {
+  outline: 2px solid rgba(0, 229, 255, 0.55);
+  outline-offset: 2px;
 }
 
 .tag--lucky {
@@ -669,10 +691,6 @@ button:disabled {
   cursor: pointer;
   font-size: 0.9rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-  display: none;
-}
-
-.zodiac-pill-row--selected .zodiac-confirm {
   display: inline-flex;
   align-items: center;
   justify-content: center;

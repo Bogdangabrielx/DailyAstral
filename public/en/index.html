@@ -2,7 +2,7 @@
 <html lang="en-US">
   <head>
     <meta charset="utf-8" />
-    <title>Daily Interactive Horoscope – Love, Money &amp; Energy | DailyAstral</title>
+    <title>The Daily Astral – Love, Money &amp; Energy | DailyAstral</title>
     <meta
       name="description"
       content="Personalized daily interactive horoscope. Choose your zodiac sign and category: love, money or daily energy."
@@ -43,15 +43,17 @@
           <img id="langIcon" class="lang-icon" src="/eng.png" alt="EN" />
         </button>
 
-        <h1 id="appTitle" class="neon-title">Daily Astral</h1>
+        <h1 id="appTitle" class="neon-title">Horoscope</h1>
         <p id="appSubtitle" class="subtitle">
           Let the stars choose for you. Tap the button and see what message the Universe has for you today.
         </p>
 
         <div class="tag-row">
-          <span class="tag tag--horoscope" data-topic="bani">$ Money</span>
-          <span class="tag tag--lucky" data-topic="ghidare">☀︎ Daily vibration</span>
-          <span class="tag tag--horoscope" data-topic="dragoste">♡ Love</span>
+          <button class="tag tag--horoscope" type="button" data-topic="bani" aria-pressed="false">$ Money</button>
+          <button class="tag tag--lucky" type="button" data-topic="ghidare" aria-pressed="false">
+            ☀︎ Daily vibration
+          </button>
+          <button class="tag tag--horoscope" type="button" data-topic="dragoste" aria-pressed="false">♡ Love</button>
         </div>
       </header>
 
@@ -70,16 +72,14 @@
     <div id="zodiacOverlay" class="zodiac-overlay">
       <div class="scroll-backdrop"></div>
       <div class="zodiac-modal">
+        <button id="zodiacClose" class="scroll-close" type="button" aria-label="Close zodiac selector">✕</button>
         <div class="scroll scroll--paper">
           <div class="scroll-inner">
             <h2 class="zodiac-title">Choose your zodiac sign</h2>
             <label class="zodiac-label" for="zodiacSelect">Your zodiac sign</label>
             <select id="zodiacSelect" class="zodiac-select"></select>
             <div class="zodiac-pill-row">
-              <button class="zodiac-pill" data-topic="bani">$ Money</button>
-              <button class="zodiac-pill" data-topic="dragoste">♡ Love</button>
-              <button class="zodiac-pill" data-topic="ghidare">☀︎ Daily vibration</button>
-              <button id="zodiacConfirm" class="zodiac-confirm">Spin</button>
+              <button id="zodiacConfirm" class="zodiac-confirm" type="button">Spin</button>
             </div>
           </div>
         </div>

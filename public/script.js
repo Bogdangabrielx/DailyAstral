@@ -24,6 +24,7 @@ const headerTags = document.querySelectorAll('.app-header .tag-row .tag');
 const zodiacOverlay = document.getElementById('zodiacOverlay');
 const zodiacSelect = document.getElementById('zodiacSelect');
 const zodiacConfirm = document.getElementById('zodiacConfirm');
+const zodiacClose = document.getElementById('zodiacClose');
 const zodiacPillRow = document.querySelector('.zodiac-pill-row');
 const zodiacPills = document.querySelectorAll('.zodiac-pill');
 const zodiacTitleEl = document.querySelector('#zodiacOverlay .zodiac-title');
@@ -54,6 +55,7 @@ const I18N = {
     spin: 'Învârte',
     errPickCategory: 'Te rog selectează o categorie (Bani / Dragoste / Vibrație zilnică).',
     errPickSign: 'Te rog selectează mai întâi o zodie.',
+    errTopicUsed: 'Ai folosit deja această categorie azi. Alege alta.',
     errAllUsed: 'Ai folosit deja toate cele 3 categorii azi. Revino mâine.',
     errMessageUnavailable: 'Mesaj indisponibil momentan.',
     scrollTitle: (topicLabel, signName) =>
@@ -72,6 +74,7 @@ const I18N = {
     spin: 'Spin',
     errPickCategory: 'Please select a category (Money / Love / Daily vibration).',
     errPickSign: 'Please select a zodiac sign first.',
+    errTopicUsed: 'You already used this category today. Please choose another one.',
     errAllUsed: 'You already used all 3 categories today. Come back tomorrow.',
     errMessageUnavailable: 'Message temporarily unavailable.',
     scrollTitle: (topicLabel, signName) =>
@@ -92,6 +95,8 @@ const TOPIC_LABELS = {
     ghidare: '☀︎ Daily vibration',
   },
 };
+
+const TOPICS = new Set(['bani', 'dragoste', 'ghidare']);
 
 function getTopicLabel(topic, lang) {
   const labels = TOPIC_LABELS[lang] || TOPIC_LABELS.ro;
@@ -271,6 +276,8 @@ function applyLanguage() {
     }
   });
 
+  syncCategoryButtons();
+
   if (zodiacTitleEl) {
     zodiacTitleEl.textContent = t('chooseSignTitle');
   }
@@ -280,13 +287,6 @@ function applyLanguage() {
   if (zodiacConfirm) {
     zodiacConfirm.textContent = t('spin');
   }
-
-  zodiacPills.forEach((pill) => {
-    const topic = pill.getAttribute('data-topic');
-    if (topic) {
-      pill.textContent = getTopicLabel(topic, currentLang);
-    }
-  });
 
   populateZodiacSelect();
 
@@ -335,6 +335,34 @@ function persistLanguage(lang) {
 function setLanguage(lang) {
   persistLanguage(lang);
   applyLanguage();
+}
+
+function normalizeTopic(topic) {
+  return TOPICS.has(topic) ? topic : null;
+}
+
+function setSelectedTopic(nextTopic) {
+  selectedTopic = normalizeTopic(nextTopic);
+  currentTopicLabel = selectedTopic ? getTopicLabel(selectedTopic, currentLang) : '';
+  syncCategoryButtons();
+}
+
+function syncCategoryButtons() {
+  const used = getUsedTopics();
+  headerTags.forEach((tag) => {
+    const topic = normalizeTopic(tag.getAttribute('data-topic'));
+    const isUsed = topic ? used.has(topic) : false;
+    const isSelected = topic && topic === selectedTopic;
+
+    if (tag instanceof HTMLButtonElement) {
+      tag.disabled = Boolean(isUsed);
+      tag.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
+    } else {
+      tag.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
+    }
+
+    tag.classList.toggle('tag--selected', Boolean(isSelected));
+  });
 }
 
 function showZodiacError(message) {
@@ -487,6 +515,21 @@ function spinForIndex(targetIndex) {
   }, 7000);
 }
 
+headerTags.forEach((tag) => {
+  tag.addEventListener('click', () => {
+    const topic = normalizeTopic(tag.getAttribute('data-topic'));
+    if (!topic) {
+      return;
+    }
+    const used = getUsedTopics();
+    if (used.has(topic)) {
+      showZodiacError(t('errTopicUsed'));
+      return;
+    }
+    setSelectedTopic(topic);
+  });
+});
+
 spinButton.addEventListener('click', () => {
   if (!zodiacOverlay || !zodiacSelect) {
     spinForIndex();
@@ -502,19 +545,19 @@ spinButton.addEventListener('click', () => {
     return;
   }
 
-  selectedTopic = null;
-  currentTopicLabel = '';
-  currentSignIndex = null;
-  if (zodiacPillRow && zodiacPills) {
-    zodiacPillRow.classList.remove('zodiac-pill-row--selected');
-    zodiacPills.forEach((pill) => {
-      pill.classList.remove('zodiac-pill--hidden');
-      pill.classList.remove('zodiac-pill--locked');
-    });
+  if (!selectedTopic) {
+    showZodiacError(t('errPickCategory'));
+    return;
   }
+
+  if (used.has(selectedTopic)) {
+    showZodiacError(t('errTopicUsed'));
+    return;
+  }
+
+  currentSignIndex = null;
   zodiacSelect.value = '';
   populateZodiacSelect();
-  updatePillAvailability();
   zodiacOverlay.classList.add('zodiac-overlay--open');
   const zodiacScroll = zodiacOverlay.querySelector('.scroll');
   if (zodiacScroll) {
@@ -525,25 +568,15 @@ spinButton.addEventListener('click', () => {
   }
 });
 
-if (zodiacPills && zodiacPillRow && zodiacConfirm) {
-  zodiacPills.forEach((pill) => {
-    pill.addEventListener('click', () => {
-      const topic = pill.getAttribute('data-topic');
-      selectedTopic = topic;
-      currentTopicLabel = topic ? getTopicLabel(topic, currentLang) : '';
-      zodiacPillRow.classList.add('zodiac-pill-row--selected');
-      zodiacPills.forEach((other) => {
-        other.classList.add('zodiac-pill--hidden');
-        other.classList.remove('zodiac-pill--locked');
-      });
-    });
-  });
-}
-
 if (zodiacConfirm && zodiacOverlay && zodiacSelect) {
   zodiacConfirm.addEventListener('click', () => {
     if (!selectedTopic) {
       showZodiacError(t('errPickCategory'));
+      return;
+    }
+    const used = getUsedTopics();
+    if (used.has(selectedTopic)) {
+      showZodiacError(t('errTopicUsed'));
       return;
     }
     const value = parseInt(zodiacSelect.value, 10);
@@ -553,12 +586,22 @@ if (zodiacConfirm && zodiacOverlay && zodiacSelect) {
     }
     currentSignIndex = value >= 0 && value < segmentCount ? value : null;
 
-    const used = getUsedTopics();
     used.add(selectedTopic);
     setUsedTopics(used);
+    syncCategoryButtons();
 
     zodiacOverlay.classList.remove('zodiac-overlay--open');
     spinForIndex(value);
+  });
+}
+
+if (zodiacClose && zodiacOverlay) {
+  zodiacClose.addEventListener('click', () => {
+    const zodiacScroll = zodiacOverlay.querySelector('.scroll');
+    if (zodiacScroll) {
+      zodiacScroll.classList.remove('scroll--visible');
+    }
+    zodiacOverlay.classList.remove('zodiac-overlay--open');
   });
 }
 

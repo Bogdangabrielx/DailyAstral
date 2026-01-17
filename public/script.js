@@ -58,8 +58,7 @@ const I18N = {
     errPickSign: 'Te rog selectează mai întâi o zodie.',
     errTopicUsed: 'Ai folosit deja această categorie azi. Alege alta.',
     errAllUsed: 'Ai folosit deja toate cele 3 categorii azi. Revino mâine.',
-    donePill:
-      'Ai primit toate mesajele de azi. Revino mâine — astrele pregătesc o nouă surpriză pentru tine.',
+    donePill: 'Ai deblocat toate mesajele astrele de azi. Astrele te așteaptă și mâine.',
     errMessageUnavailable: 'Mesaj indisponibil momentan.',
     scrollTitle: (topicLabel, signName) =>
       signName
@@ -79,7 +78,7 @@ const I18N = {
     errPickSign: 'Please select a zodiac sign first.',
     errTopicUsed: 'You already used this category today. Please choose another one.',
     errAllUsed: 'You already used all 3 categories today. Come back tomorrow.',
-    donePill: 'You’ve unlocked all of today’s messages. Come back tomorrow — the stars will have something new for you.',
+    donePill: "You've unlocked all of today's star messages. The stars are waiting for you tomorrow too.",
     errMessageUnavailable: 'Message temporarily unavailable.',
     scrollTitle: (topicLabel, signName) =>
       signName ? ` ${signName}  - ${topicLabel}` : 'Your message for today',

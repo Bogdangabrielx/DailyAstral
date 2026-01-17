@@ -21,6 +21,7 @@ const langIcon = document.getElementById('langIcon');
 const appTitleEl = document.getElementById('appTitle');
 const appSubtitleEl = document.getElementById('appSubtitle');
 const headerTags = document.querySelectorAll('.app-header .tag-row .tag');
+const dailyDonePill = document.getElementById('dailyDonePill');
 const zodiacOverlay = document.getElementById('zodiacOverlay');
 const zodiacSelect = document.getElementById('zodiacSelect');
 const zodiacConfirm = document.getElementById('zodiacConfirm');
@@ -57,6 +58,8 @@ const I18N = {
     errPickSign: 'Te rog selectează mai întâi o zodie.',
     errTopicUsed: 'Ai folosit deja această categorie azi. Alege alta.',
     errAllUsed: 'Ai folosit deja toate cele 3 categorii azi. Revino mâine.',
+    donePill:
+      'Ai primit toate mesajele de azi. Revino mâine — astrele pregătesc o nouă surpriză pentru tine.',
     errMessageUnavailable: 'Mesaj indisponibil momentan.',
     scrollTitle: (topicLabel, signName) =>
       signName
@@ -76,6 +79,7 @@ const I18N = {
     errPickSign: 'Please select a zodiac sign first.',
     errTopicUsed: 'You already used this category today. Please choose another one.',
     errAllUsed: 'You already used all 3 categories today. Come back tomorrow.',
+    donePill: 'You’ve unlocked all of today’s messages. Come back tomorrow — the stars will have something new for you.',
     errMessageUnavailable: 'Message temporarily unavailable.',
     scrollTitle: (topicLabel, signName) =>
       signName ? ` ${signName}  - ${topicLabel}` : 'Your message for today',
@@ -358,8 +362,26 @@ function updateSpinButtonState() {
 
 function syncCategoryButtons() {
   const used = getUsedTopics();
+  const allUsed = used.has('bani') && used.has('dragoste') && used.has('ghidare');
+
+  if (allUsed) {
+    if (selectedTopic) {
+      selectedTopic = null;
+      currentTopicLabel = '';
+    }
+    if (dailyDonePill) {
+      dailyDonePill.textContent = t('donePill');
+      dailyDonePill.classList.remove('tag--hidden');
+    }
+  } else if (dailyDonePill) {
+    dailyDonePill.classList.add('tag--hidden');
+  }
+
   headerTags.forEach((tag) => {
     const topic = normalizeTopic(tag.getAttribute('data-topic'));
+    if (!topic) {
+      return;
+    }
     const isUsed = topic ? used.has(topic) : false;
     const isSelected = topic && topic === selectedTopic;
 
@@ -370,6 +392,7 @@ function syncCategoryButtons() {
       tag.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
     }
 
+    tag.classList.toggle('tag--hidden', Boolean(allUsed) && Boolean(topic));
     tag.classList.toggle('tag--selected', Boolean(isSelected));
   });
 

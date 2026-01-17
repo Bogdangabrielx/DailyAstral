@@ -84,12 +84,12 @@ const TOPIC_LABELS = {
   ro: {
     bani: '$ Bani',
     dragoste: '♡ Dragoste',
-    ghidare: '☀ Vibrație zilnică',
+    ghidare: '☀︎ Vibrație zilnică',
   },
   en: {
     bani: '$ Money',
     dragoste: '♡ Love',
-    ghidare: '☀ Daily vibration',
+    ghidare: '☀︎ Daily vibration',
   },
 };
 
@@ -313,9 +313,27 @@ function applyLanguage() {
   }
 }
 
-function setLanguage(lang) {
+function setLangCookie(lang) {
+  const maxAgeSeconds = 60 * 60 * 24 * 365;
+  document.cookie = `horoscop.lang=${encodeURIComponent(lang)}; Max-Age=${maxAgeSeconds}; Path=/; SameSite=Lax`;
+}
+
+function persistLanguage(lang) {
   currentLang = lang === 'en' ? 'en' : 'ro';
-  localStorage.setItem(STORAGE_KEYS.lang, currentLang);
+  try {
+    localStorage.setItem(STORAGE_KEYS.lang, currentLang);
+  } catch {
+    // ignore
+  }
+  try {
+    setLangCookie(currentLang);
+  } catch {
+    // ignore
+  }
+}
+
+function setLanguage(lang) {
+  persistLanguage(lang);
   applyLanguage();
 }
 
@@ -562,10 +580,31 @@ if (zodiacErrorClose && zodiacErrorOverlay) {
 }
 
 // init language
-setLanguage(localStorage.getItem(STORAGE_KEYS.lang) || 'ro');
+function getLangFromPathname(pathname) {
+  const lower = String(pathname || '').toLowerCase();
+  if (lower === '/en' || lower.startsWith('/en/')) {
+    return 'en';
+  }
+  if (lower === '/ro' || lower.startsWith('/ro/')) {
+    return 'ro';
+  }
+  return null;
+}
+
+const routeLang = getLangFromPathname(window.location.pathname);
+let storedLang = null;
+try {
+  storedLang = localStorage.getItem(STORAGE_KEYS.lang);
+} catch {
+  storedLang = null;
+}
+setLanguage(routeLang || storedLang || 'ro');
 
 if (langToggle) {
   langToggle.addEventListener('click', () => {
-    setLanguage(currentLang === 'ro' ? 'en' : 'ro');
+    const nextLang = currentLang === 'ro' ? 'en' : 'ro';
+    const targetPath = nextLang === 'en' ? '/en/' : '/ro/';
+    persistLanguage(nextLang);
+    window.location.assign(targetPath);
   });
 }

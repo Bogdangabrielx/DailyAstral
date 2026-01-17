@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <title>Daily Interactive Horoscope – Love, Money &amp; Energy | DailyAstral</title>
+    <meta
+      name="description"
+      content="Personalized daily interactive horoscope. Choose your zodiac sign and category: love, money or daily energy."
+    />
+    <meta
+      name="keywords"
+      content="interactive horoscope, daily horoscope, love horoscope, money horoscope, daily energy, zodiac signs, astrology"
+    />
+    <link rel="canonical" href="https://www.dailyastral.com/en" />
+    <link rel="alternate" hreflang="en" href="https://www.dailyastral.com/en" />
+    <link rel="alternate" hreflang="ro" href="https://www.dailyastral.com/ro" />
+    <link rel="alternate" hreflang="x-default" href="https://www.dailyastral.com/ro" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="DailyAstral" />
+    <meta property="og:title" content="Daily Interactive Horoscope | DailyAstral" />
+    <meta
+      property="og:description"
+      content="Daily interactive horoscope for love, money and energy, personalized by zodiac sign."
+    />
+    <meta property="og:url" content="https://www.dailyastral.com/en" />
+    <meta property="og:image" content="https://www.dailyastral.com/Background_round.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Daily Interactive Horoscope | DailyAstral" />
+    <meta
+      name="twitter:description"
+      content="Daily interactive horoscope for love, money and energy, personalized based on your zodiac sign."
+    />
+    <meta name="twitter:image" content="https://www.dailyastral.com/Background_round.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="app-header">
+        <button id="langToggle" class="lang-toggle" type="button" aria-label="Change language">
+          <img id="langIcon" class="lang-icon" src="/eng.png" alt="EN" />
+        </button>
+
+        <h1 id="appTitle" class="neon-title">Horoscope</h1>
+        <p id="appSubtitle" class="subtitle">
+          Let the stars choose for you. Tap the button and see what message the Universe has for you today.
+        </p>
+
+        <div class="tag-row">
+          <span class="tag tag--horoscope" data-topic="bani">$ Money</span>
+          <span class="tag tag--lucky" data-topic="ghidare">☀︎ Daily vibration</span>
+          <span class="tag tag--horoscope" data-topic="dragoste">♡ Love</span>
+        </div>
+      </header>
+
+      <div class="wheel-container">
+        <div class="pointer"></div>
+        <div id="wheel" class="wheel">
+          <div class="sun-face"></div>
+        </div>
+      </div>
+
+      <button id="spinButton">Spin the wheel</button>
+
+      <div id="result" class="result"></div>
+    </div>
+
+    <div id="zodiacOverlay" class="zodiac-overlay">
+      <div class="scroll-backdrop"></div>
+      <div class="zodiac-modal">
+        <div class="scroll scroll--paper">
+          <div class="scroll-inner">
+            <h2 class="zodiac-title">Choose your zodiac sign</h2>
+            <label class="zodiac-label" for="zodiacSelect">Your zodiac sign</label>
+            <select id="zodiacSelect" class="zodiac-select"></select>
+            <div class="zodiac-pill-row">
+              <button class="zodiac-pill" data-topic="bani">$ Money</button>
+              <button class="zodiac-pill" data-topic="dragoste">♡ Love</button>
+              <button class="zodiac-pill" data-topic="ghidare">☀︎ Daily vibration</button>
+              <button id="zodiacConfirm" class="zodiac-confirm">Spin</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="scrollOverlay" class="scroll-overlay">
+      <div class="scroll-backdrop"></div>
+      <div class="scroll-modal">
+        <div id="scrollFireworks" class="scroll-fireworks"></div>
+        <button id="scrollClose" class="scroll-close" aria-label="Close scroll">✕</button>
+        <div class="scroll scroll--paper">
+          <div class="scroll-inner">
+            <h2 id="scrollTitle" class="scroll-title">Your message for today</h2>
+            <p id="scrollMessage" class="scroll-message scroll-message--paper">message text</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="zodiacErrorOverlay" class="scroll-overlay">
+      <div class="scroll-backdrop"></div>
+      <div class="scroll-modal">
+        <button id="zodiacErrorClose" class="scroll-close" aria-label="Close message">✕</button>
+        <div class="scroll scroll--paper">
+          <div class="scroll-inner">
+            <p id="zodiacErrorMessage" class="scroll-message scroll-message--paper">Please select a sign.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/script.js"></script>
+  </body>
+</html>

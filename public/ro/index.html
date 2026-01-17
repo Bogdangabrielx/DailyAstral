@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ro-RO">
+  <head>
+    <meta charset="utf-8" />
+    <title>Horoscop Interactiv Zilnic – Bani, Dragoste &amp; Vibrație | DailyAstral</title>
+    <meta
+      name="description"
+      content="Horoscop interactiv zilnic personalizat. Alege zodia și categoria dorită: bani, dragoste sau vibrație zilnică."
+    />
+    <meta
+      name="keywords"
+      content="horoscop interactiv, horoscop zilnic, horoscop bani, horoscop dragoste, vibrație zilnică, zodii, astrologie"
+    />
+    <link rel="canonical" href="https://www.dailyastral.com/ro" />
+    <link rel="alternate" hreflang="ro" href="https://www.dailyastral.com/ro" />
+    <link rel="alternate" hreflang="en" href="https://www.dailyastral.com/en" />
+    <link rel="alternate" hreflang="x-default" href="https://www.dailyastral.com/ro" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="DailyAstral" />
+    <meta property="og:title" content="Horoscop Interactiv Zilnic | DailyAstral" />
+    <meta
+      property="og:description"
+      content="Horoscop interactiv zilnic pentru bani, dragoste și vibrație, personalizat în funcție de zodie."
+    />
+    <meta property="og:url" content="https://www.dailyastral.com/ro" />
+    <meta property="og:image" content="https://www.dailyastral.com/Background_round.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Horoscop Interactiv Zilnic | DailyAstral" />
+    <meta
+      name="twitter:description"
+      content="Horoscop interactiv zilnic pentru bani, dragoste și vibrație, personalizat pe baza zodiei."
+    />
+    <meta name="twitter:image" content="https://www.dailyastral.com/Background_round.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="app-header">
+        <button id="langToggle" class="lang-toggle" type="button" aria-label="Schimbă limba">
+          <img id="langIcon" class="lang-icon" src="/ro.png" alt="RO" />
+        </button>
+
+        <h1 id="appTitle" class="neon-title">Horoscop</h1>
+        <p id="appSubtitle" class="subtitle">
+          Lasă stelele să aleagă pentru tine. Apasă pe buton și vezi ce mesaj are astăzi Universul pentru tine.
+        </p>
+
+        <div class="tag-row">
+          <span class="tag tag--horoscope" data-topic="bani">$ Bani</span>
+          <span class="tag tag--lucky" data-topic="ghidare">☀︎ Vibrație zilnică</span>
+          <span class="tag tag--horoscope" data-topic="dragoste">♡ Dragoste</span>
+        </div>
+      </header>
+
+      <div class="wheel-container">
+        <div class="pointer"></div>
+        <div id="wheel" class="wheel">
+          <div class="sun-face"></div>
+        </div>
+      </div>
+
+      <button id="spinButton">Învârte roata</button>
+
+      <div id="result" class="result"></div>
+    </div>
+
+    <div id="zodiacOverlay" class="zodiac-overlay">
+      <div class="scroll-backdrop"></div>
+      <div class="zodiac-modal">
+        <div class="scroll scroll--paper">
+          <div class="scroll-inner">
+            <h2 class="zodiac-title">Alege-ți zodia</h2>
+            <label class="zodiac-label" for="zodiacSelect">Zodia ta</label>
+            <select id="zodiacSelect" class="zodiac-select"></select>
+            <div class="zodiac-pill-row">
+              <button class="zodiac-pill" data-topic="bani">$ Bani</button>
+              <button class="zodiac-pill" data-topic="dragoste">♡ Dragoste</button>
+              <button class="zodiac-pill" data-topic="ghidare">☀︎ Vibrație zilnică</button>
+              <button id="zodiacConfirm" class="zodiac-confirm">Învârte</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="scrollOverlay" class="scroll-overlay">
+      <div class="scroll-backdrop"></div>
+      <div class="scroll-modal">
+        <div id="scrollFireworks" class="scroll-fireworks"></div>
+        <button id="scrollClose" class="scroll-close" aria-label="Închide pergamentul">✕</button>
+        <div class="scroll scroll--paper">
+          <div class="scroll-inner">
+            <h2 id="scrollTitle" class="scroll-title">Mesajul tău de astăzi</h2>
+            <p id="scrollMessage" class="scroll-message scroll-message--paper">mesaj text</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="zodiacErrorOverlay" class="scroll-overlay">
+      <div class="scroll-backdrop"></div>
+      <div class="scroll-modal">
+        <button id="zodiacErrorClose" class="scroll-close" aria-label="Închide mesajul">✕</button>
+        <div class="scroll scroll--paper">
+          <div class="scroll-inner">
+            <p id="zodiacErrorMessage" class="scroll-message scroll-message--paper">Te rog selectează o zodie.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/script.js"></script>
+  </body>
+</html>

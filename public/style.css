@@ -372,6 +372,21 @@ button:disabled {
   cursor: default;
 }
 
+#spinButton:disabled {
+  opacity: 0.35;
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: none;
+  text-shadow: none;
+}
+
+#spinButton.spin-button--ready {
+  box-shadow:
+    0 0 18px rgba(0, 229, 255, 0.75),
+    0 0 24px rgba(255, 32, 121, 0.95),
+    0 10px 28px rgba(0, 0, 0, 0.72);
+}
+
 .result {
   margin-top: 16px;
   min-height: 24px;

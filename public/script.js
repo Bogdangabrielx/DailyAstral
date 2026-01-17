@@ -347,6 +347,15 @@ function setSelectedTopic(nextTopic) {
   syncCategoryButtons();
 }
 
+function updateSpinButtonState() {
+  if (!spinButton) {
+    return;
+  }
+  const ready = Boolean(selectedTopic) && !isSpinning;
+  spinButton.disabled = !ready;
+  spinButton.classList.toggle('spin-button--ready', ready);
+}
+
 function syncCategoryButtons() {
   const used = getUsedTopics();
   headerTags.forEach((tag) => {
@@ -363,6 +372,8 @@ function syncCategoryButtons() {
 
     tag.classList.toggle('tag--selected', Boolean(isSelected));
   });
+
+  updateSpinButtonState();
 }
 
 function showZodiacError(message) {
@@ -450,12 +461,21 @@ async function fetchAnswerByIdxAndTopic(idx, topic, lang = currentLang) {
   return typeof value === 'string' ? value : '';
 }
 
-function spinForIndex(targetIndex) {
+function spinForIndex(targetIndex, topicOverride, topicLabelOverride) {
   if (isSpinning) {
     return;
   }
+
+  const topic = normalizeTopic(topicOverride) || selectedTopic;
+  if (!topic) {
+    showZodiacError(t('errPickCategory'));
+    return;
+  }
+
+  const spinLang = currentLang;
+  const topicLabel = typeof topicLabelOverride === 'string' && topicLabelOverride ? topicLabelOverride : getTopicLabel(topic, spinLang);
   isSpinning = true;
-  spinButton.disabled = true;
+  updateSpinButtonState();
   if (resultEl) {
     resultEl.textContent = '';
   }
@@ -477,23 +497,22 @@ function spinForIndex(targetIndex) {
   wheel.style.transform = `rotate(${targetRotation}deg)`;
 
   const todayIdx = getTodayIdx();
-  const topic = selectedTopic || '';
-  const messagePromise = fetchAnswerByIdxAndTopic(todayIdx, topic, currentLang);
+  const messagePromise = fetchAnswerByIdxAndTopic(todayIdx, topic, spinLang);
+  const errUnavailable = (I18N[spinLang] || I18N.ro).errMessageUnavailable;
 
   setTimeout(async () => {
     if (scrollOverlay && scrollElement && scrollMessage) {
-      const topicLabel = currentTopicLabel || getTopicLabel(selectedTopic || '', currentLang);
-      const signName = typeof currentSignIndex === 'number' ? getSignName(currentSignIndex, currentLang) : '';
+      const signName = typeof currentSignIndex === 'number' ? getSignName(currentSignIndex, spinLang) : '';
       if (scrollTitle) {
-        const table = I18N[currentLang] || I18N.ro;
+        const table = I18N[spinLang] || I18N.ro;
         scrollTitle.textContent = table.scrollTitle(topicLabel, signName);
       }
 
       try {
         const message = await messagePromise;
-        scrollMessage.textContent = message || t('errMessageUnavailable');
+        scrollMessage.textContent = message || errUnavailable;
       } catch {
-        scrollMessage.textContent = t('errMessageUnavailable');
+        scrollMessage.textContent = errUnavailable;
       }
 
       if (scrollFireworks) {
@@ -510,8 +529,8 @@ function spinForIndex(targetIndex) {
       void scrollElement.offsetWidth;
       scrollElement.classList.add('scroll--visible');
     }
-    spinButton.disabled = false;
     isSpinning = false;
+    updateSpinButtonState();
   }, 7000);
 }
 
@@ -526,15 +545,15 @@ headerTags.forEach((tag) => {
       showZodiacError(t('errTopicUsed'));
       return;
     }
+    if (topic === selectedTopic) {
+      setSelectedTopic(null);
+      return;
+    }
     setSelectedTopic(topic);
   });
 });
 
 spinButton.addEventListener('click', () => {
-  if (!zodiacOverlay || !zodiacSelect) {
-    spinForIndex();
-    return;
-  }
   if (isSpinning) {
     return;
   }
@@ -552,6 +571,11 @@ spinButton.addEventListener('click', () => {
 
   if (used.has(selectedTopic)) {
     showZodiacError(t('errTopicUsed'));
+    return;
+  }
+
+  if (!zodiacOverlay || !zodiacSelect) {
+    spinForIndex(null, selectedTopic, getTopicLabel(selectedTopic, currentLang));
     return;
   }
 
@@ -586,12 +610,15 @@ if (zodiacConfirm && zodiacOverlay && zodiacSelect) {
     }
     currentSignIndex = value >= 0 && value < segmentCount ? value : null;
 
-    used.add(selectedTopic);
+    const topicForSpin = selectedTopic;
+    const topicLabelForSpin = getTopicLabel(topicForSpin, currentLang);
+
+    used.add(topicForSpin);
     setUsedTopics(used);
-    syncCategoryButtons();
 
     zodiacOverlay.classList.remove('zodiac-overlay--open');
-    spinForIndex(value);
+    setSelectedTopic(null);
+    spinForIndex(value, topicForSpin, topicLabelForSpin);
   });
 }
 

@@ -44,7 +44,7 @@ const DAILY_STEP = Number.isFinite(Number(runtimeConfig.dailyStep)) ? Number(run
 
 const I18N = {
   ro: {
-    appTitle: 'Horoscop',
+    appTitle: 'Daily Astral',
     appSubtitle:
       'Lasă stelele să aleagă pentru tine. Apasă pe buton și vezi ce mesaj are astăzi Universul pentru tine.',
     spinWheel: 'Învârte roata',
@@ -63,7 +63,7 @@ const I18N = {
     langAria: 'Schimbă limba',
   },
   en: {
-    appTitle: 'Horoscope',
+    appTitle: 'Daily Astral',
     appSubtitle: 'Let the stars choose for you. Tap the button and see what message the Universe has for you today.',
     spinWheel: 'Spin the wheel',
     chooseSignTitle: 'Choose your zodiac sign',

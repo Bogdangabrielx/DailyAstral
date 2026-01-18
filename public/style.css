@@ -48,6 +48,18 @@ body::before {
   overflow: hidden;
 }
 
+@media (min-width: 900px) {
+  .app {
+    max-width: 720px;
+    padding: 42px 44px 48px;
+    min-height: min(860px, calc(100vh - 90px));
+  }
+
+  .app-header {
+    margin-bottom: 38px;
+  }
+}
+
 .app::before {
   content: '';
   position: absolute;

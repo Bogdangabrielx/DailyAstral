@@ -253,21 +253,33 @@ p {
 }
 
 .wheel-container {
+  --wheel-size: 320px;
+  --wheel-inset: calc(var(--wheel-size) * 0.05625);
+  --wheel-border: calc(var(--wheel-size) * 0.025);
+  --wheel-shadow: calc(var(--wheel-size) * 0.05625);
+  --wheel-glow-cyan: calc(var(--wheel-size) * 0.09375);
+  --wheel-glow-pink: calc(var(--wheel-size) * 0.171875);
+  --pointer-half: calc(var(--wheel-size) * 0.03125);
+  --pointer-height: calc(var(--wheel-size) * 0.0625);
+  --pointer-glow-soft: calc(var(--wheel-size) * 0.0125);
+  --pointer-glow-strong: calc(var(--wheel-size) * 0.03125);
+  --wheel-before-blur: calc(var(--wheel-size) * 0.0125);
+
   position: relative;
-  width: 320px;
-  height: 320px;
+  width: min(var(--wheel-size), 100%);
+  aspect-ratio: 1;
   margin: 0 auto 24px;
-  filter: drop-shadow(0 0 18px rgba(0, 229, 255, 0.7));
+  filter: drop-shadow(0 0 var(--wheel-shadow) rgba(0, 229, 255, 0.7));
 }
 
 .wheel-container::before {
   content: '';
   position: absolute;
-  inset: 18px;
+  inset: var(--wheel-inset);
   border-radius: 50%;
   background: radial-gradient(circle, rgba(255, 255, 255, 0.09), transparent 60%);
   opacity: 0.75;
-  filter: blur(4px);
+  filter: blur(var(--wheel-before-blur));
   z-index: -1;
 }
 
@@ -275,12 +287,12 @@ p {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  border: 8px solid rgba(255, 255, 255, 0.18);
+  border: var(--wheel-border) solid rgba(255, 255, 255, 0.18);
   background: url('/Background_round.png') center center / 105% 105% no-repeat;
   box-shadow:
     0 0 0 1px rgba(255, 255, 255, 0.18),
-    0 0 30px rgba(0, 229, 255, 0.9),
-    0 0 55px rgba(255, 64, 129, 0.9);
+    0 0 var(--wheel-glow-cyan) rgba(0, 229, 255, 0.9),
+    0 0 var(--wheel-glow-pink) rgba(255, 64, 129, 0.9);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -356,17 +368,23 @@ p {
 
 .pointer {
   position: absolute;
-  top: -18px;
+  top: calc(var(--wheel-inset) * -1);
   left: 50%;
   transform: translateX(-50%);
   width: 0;
   height: 0;
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-  border-top: 20px solid #ffeb3b;
+  border-left: var(--pointer-half) solid transparent;
+  border-right: var(--pointer-half) solid transparent;
+  border-top: var(--pointer-height) solid #ffeb3b;
   filter:
-    drop-shadow(0 0 4px rgba(255, 255, 255, 0.95))
-    drop-shadow(0 0 10px rgba(255, 235, 59, 0.9));
+    drop-shadow(0 0 var(--pointer-glow-soft) rgba(255, 255, 255, 0.95))
+    drop-shadow(0 0 var(--pointer-glow-strong) rgba(255, 235, 59, 0.9));
+}
+
+@media (min-width: 900px) {
+  .wheel-container {
+    --wheel-size: clamp(360px, calc(100vh - 420px), 520px);
+  }
 }
 
 button {

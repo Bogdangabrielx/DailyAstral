@@ -52,7 +52,7 @@ body::before {
   .app {
     max-width: 720px;
     padding: 42px 44px 48px;
-    min-height: min(860px, calc(100vh - 90px));
+    min-height: 0;
   }
 
   .app-header {

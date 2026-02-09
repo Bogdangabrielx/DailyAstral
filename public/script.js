@@ -516,7 +516,7 @@ function spinForIndex(targetIndex, topicOverride, topicLabelOverride) {
   const centerAngle = (index + 0.5) * segmentAngle;
   const targetRotation = -(spinTurns * 360 + centerAngle);
 
-  wheel.style.setProperty('--wheel-rotation', `${targetRotation}deg`);
+  wheel.style.transform = `rotate(${targetRotation}deg)`;
 
   const todayIdx = getTodayIdx();
   const messagePromise = fetchAnswerByIdxAndTopic(todayIdx, topic, spinLang);

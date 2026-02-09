@@ -255,6 +255,7 @@ p {
 
 .wheel-container {
   --wheel-size: 320px;
+  --wheel-scale: 1.08;
   --wheel-inset: calc(var(--wheel-size) * 0.05625);
   --wheel-border: calc(var(--wheel-size) * 0.025);
   --wheel-shadow: calc(var(--wheel-size) * 0.05625);
@@ -299,6 +300,9 @@ p {
   justify-content: center;
   position: relative;
   transition: transform 6s cubic-bezier(0.23, 1, 0.32, 1);
+  transform: rotate(var(--wheel-rotation, 0deg)) scale(var(--wheel-scale));
+  transform-origin: center;
+  z-index: 1;
 }
 
 .wheel::before {
@@ -380,6 +384,7 @@ p {
   filter:
     drop-shadow(0 0 var(--pointer-glow-soft) rgba(255, 255, 255, 0.95))
     drop-shadow(0 0 var(--pointer-glow-strong) rgba(255, 235, 59, 0.9));
+  z-index: 2;
 }
 
 @media (min-width: 900px) {

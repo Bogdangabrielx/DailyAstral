@@ -37,7 +37,7 @@ body::before {
 
 .app {
   --section-gap: 28px;
-  --wheel-size: 432px;
+  --wheel-size: 410px;
   --wheel-inset: calc(var(--wheel-size) * 0.05625);
   --wheel-border: calc(var(--wheel-size) * 0.025);
   --wheel-shadow: calc(var(--wheel-size) * 0.05625);
@@ -414,7 +414,7 @@ p {
 
 @media (min-width: 900px) {
   .app {
-    --wheel-size: clamp(480px, calc(100vh - 420px), 600px);
+    --wheel-size: clamp(456px, calc(100vh - 420px), 570px);
   }
 }
 

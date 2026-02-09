@@ -80,7 +80,7 @@ body::before {
 }
 
 .app-header {
-  margin-bottom: 30px;
+  margin-bottom: 0;
   position: static;
 }
 
@@ -119,6 +119,7 @@ p {
   justify-content: center;
   gap: 8px;
   margin-top: 10px;
+  margin-bottom: 34px;
   width: 100%;
   flex-wrap: nowrap;
 }

@@ -254,7 +254,7 @@ p {
 }
 
 .wheel-container {
-  --wheel-size: 468px;
+  --wheel-size: 432px;
   --wheel-inset: calc(var(--wheel-size) * 0.05625);
   --wheel-border: calc(var(--wheel-size) * 0.025);
   --wheel-shadow: calc(var(--wheel-size) * 0.05625);
@@ -384,7 +384,7 @@ p {
 
 @media (min-width: 900px) {
   .wheel-container {
-    --wheel-size: clamp(520px, calc(100vh - 420px), 640px);
+    --wheel-size: clamp(480px, calc(100vh - 420px), 600px);
   }
 }
 

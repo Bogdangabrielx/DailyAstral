@@ -66,14 +66,20 @@
         </div>
       </header>
 
-      <div class="wheel-container">
-        <div class="pointer"></div>
-        <div id="wheel" class="wheel">
-          <div class="sun-face"></div>
+      <div class="wheel-stack">
+        <div class="pointer-row">
+          <div class="pointer"></div>
+        </div>
+        <div class="wheel-container">
+          <div id="wheel" class="wheel">
+            <div class="sun-face"></div>
+          </div>
+        </div>
+        <div class="wheel-gap"></div>
+        <div class="spin-row">
+          <button id="spinButton" disabled>Învârte roata</button>
         </div>
       </div>
-
-      <button id="spinButton" disabled>Învârte roata</button>
 
       <div id="result" class="result"></div>
     </div>

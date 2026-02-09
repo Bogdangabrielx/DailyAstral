@@ -36,6 +36,17 @@ body::before {
 
 .app {
   --section-gap: 28px;
+  --wheel-size: 432px;
+  --wheel-inset: calc(var(--wheel-size) * 0.05625);
+  --wheel-border: calc(var(--wheel-size) * 0.025);
+  --wheel-shadow: calc(var(--wheel-size) * 0.05625);
+  --wheel-glow-cyan: calc(var(--wheel-size) * 0.09375);
+  --wheel-glow-pink: calc(var(--wheel-size) * 0.171875);
+  --pointer-half: calc(var(--wheel-size) * 0.03125);
+  --pointer-height: calc(var(--wheel-size) * 0.0625);
+  --pointer-glow-soft: calc(var(--wheel-size) * 0.0125);
+  --pointer-glow-strong: calc(var(--wheel-size) * 0.03125);
+  --wheel-before-blur: calc(var(--wheel-size) * 0.0125);
   text-align: center;
   padding: 12px 24px 8px;
   max-width: 520px;
@@ -256,23 +267,35 @@ p {
 }
 
 .wheel-container {
-  --wheel-size: 432px;
-  --wheel-inset: calc(var(--wheel-size) * 0.05625);
-  --wheel-border: calc(var(--wheel-size) * 0.025);
-  --wheel-shadow: calc(var(--wheel-size) * 0.05625);
-  --wheel-glow-cyan: calc(var(--wheel-size) * 0.09375);
-  --wheel-glow-pink: calc(var(--wheel-size) * 0.171875);
-  --pointer-half: calc(var(--wheel-size) * 0.03125);
-  --pointer-height: calc(var(--wheel-size) * 0.0625);
-  --pointer-glow-soft: calc(var(--wheel-size) * 0.0125);
-  --pointer-glow-strong: calc(var(--wheel-size) * 0.03125);
-  --wheel-before-blur: calc(var(--wheel-size) * 0.0125);
-
   position: relative;
   width: min(var(--wheel-size), 100%);
   aspect-ratio: 1;
-  margin: 0 auto var(--section-gap);
+  margin: 0 auto;
   filter: drop-shadow(0 0 var(--wheel-shadow) rgba(0, 229, 255, 0.7));
+}
+
+.wheel-stack {
+  display: grid;
+  justify-items: center;
+  row-gap: 0;
+}
+
+.pointer-row {
+  height: var(--pointer-height);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+}
+
+.wheel-gap {
+  height: var(--section-gap);
+}
+
+.spin-row {
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 
 .wheel-container::before {
@@ -371,10 +394,8 @@ p {
 }
 
 .pointer {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  position: relative;
+  transform: none;
   width: 0;
   height: 0;
   border-left: var(--pointer-half) solid transparent;
@@ -387,7 +408,7 @@ p {
 }
 
 @media (min-width: 900px) {
-  .wheel-container {
+  .app {
     --wheel-size: clamp(480px, calc(100vh - 420px), 600px);
   }
 }

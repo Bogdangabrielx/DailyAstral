@@ -291,7 +291,7 @@ p {
 }
 
 .wheel-gap {
-  height: var(--section-gap);
+  height: calc(var(--section-gap) + 8px);
 }
 
 .spin-row {

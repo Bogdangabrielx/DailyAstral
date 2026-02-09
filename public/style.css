@@ -98,7 +98,7 @@ body::before {
 }
 
 h1 {
-  margin-bottom: var(--section-gap);
+  margin-bottom: calc(var(--section-gap) * 0.7);
   font-size: 3rem;
 }
 

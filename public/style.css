@@ -297,6 +297,7 @@ p {
   display: flex;
   justify-content: center;
   width: 100%;
+  margin-bottom: var(--section-gap);
 }
 
 .wheel-container::before {
